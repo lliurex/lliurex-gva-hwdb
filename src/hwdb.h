@@ -19,14 +19,23 @@
 
 #include <stdint.h>
 
+typedef enum {
+    LLX_GVA_HWDB_DESKTOP = 0,
+    LLX_GVA_HWDB_LAPTOP
+} llx_gva_hwdb_format_t;
+
 typedef struct {
     uint64_t hash;
     char* what;
-    uint32_t format;
+    llx_gva_hwdb_format_t format;
+    char* vendor;
+    char* system;
 } llx_gva_hwdb_t;
 
 llx_gva_hwdb_t llx_gva_hwdb [] = { 
-        {2947799435940071112,"TST1",0}, /* Test entry */
-        {4071682124959178180,"OR62",0}, /* Investronica, MS-7210 */
+       /* {2947799435940071112U,"TST1",LLX_GVA_HWDB_DESKTOP,"",""}, */
+        {4071682124959178180U,"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
+        {12035700818783202010U,"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
+        {2105838388923405639U,"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"},
         {0,0,0}
 };

@@ -27,12 +27,16 @@ void show_help()
     fprintf(stderr,"LliureX GVA hardware database tool\n\n");
     fprintf(stderr,"Available commands:\n");
     fprintf(stderr,"what\t\tGuesses what gva model this system is\n");
+    fprintf(stderr,"what-format\t\tGuesses what gva format this system is\n");
     fprintf(stderr,"is MODEL\tChecks if current system matches given MODEL name\n");
     fprintf(stderr,"info\t\tDumps system info\n");
+    fprintf(stderr,"list-db\t\tList current database\n");
 }
 
 int main(int argc,char* argv[])
 {
+    const char* format_names[] = {"Desktop","Laptop"};
+    
     if (argc<2) {
         show_help();
         return -1;
@@ -41,12 +45,15 @@ int main(int argc,char* argv[])
     if (strcmp(argv[1],"info") == 0) {
         printf("vendor: \"%s\"\n",llx_gva_hwdb_get_vendor());
         printf("system: \"%s\"\n",llx_gva_hwdb_get_system());
-        const char* what = llx_gva_hwdb_what();
-        if (strlen(what) == 0) {
-            printf("what: \"UNKNOWN\"\n");
+        llx_gva_hwdb_t* what = llx_gva_hwdb_what_db();
+
+        if (what == 0) {
+            printf("what: UNKNOWN\n");
+            printf("format: UNKNOWN\n");
         }
         else {
-            printf("what: \"%s\"\n",what);
+            printf("what: %s\n",what->what);
+            printf("format: %s\n",format_names[what->format]);
         }
         
         return 0;
@@ -64,6 +71,18 @@ int main(int argc,char* argv[])
         }
     }
     
+    if (strcmp(argv[1],"what-format") == 0) {
+        llx_gva_hwdb_t* what = llx_gva_hwdb_what_db();
+        if (what == 0) {
+            printf("UNKNOWN\n");
+            return -2;
+        }
+        else {
+            printf("%s\n",format_names[what->format]);
+            return 0;
+        }
+    }
+    
     if (strcmp(argv[1],"is") == 0 && argc>2) {
         const char* what = llx_gva_hwdb_what();
         
@@ -77,7 +96,19 @@ int main(int argc,char* argv[])
     
     if (strcmp(argv[1],"compute-hash") == 0 && argc>2) {
         uint64_t hash = llx_gva_hwdb_compute_hash(argv[2]);
-        printf("%ld\n",hash);
+        printf("%lu\n",hash);
+        
+        return 0;
+    }
+    
+    if (strcmp(argv[1],"list-db") == 0) {
+        
+        llx_gva_hwdb_t* info=llx_gva_hwdb;
+    
+        while (info->hash!=0) {
+            printf("%s %s %s %s\n",info->what,format_names[info->format],info->vendor,info->system);
+            info++;
+        }
         
         return 0;
     }

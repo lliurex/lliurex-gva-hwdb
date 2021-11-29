@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "hwdb.h"
+#include "libllxgvahwdb.h"
 
 #include <smbios_c/smbios.h>
 #include <smbios_c/system_info.h>
@@ -115,4 +115,20 @@ char* llx_gva_hwdb_what()
     }
     
     return buffer;
+}
+
+llx_gva_hwdb_t* llx_gva_hwdb_what_db()
+{
+    uint64_t me = llx_gva_hwdb_get_hash();
+    
+    llx_gva_hwdb_t* info=llx_gva_hwdb;
+    
+    while (info->hash!=0) {
+        if (info->hash==me) {
+            return info;
+        }
+        info++;
+    }
+    
+    return NULL;
 }

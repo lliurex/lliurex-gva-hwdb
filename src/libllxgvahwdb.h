@@ -17,6 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef LLIUREX_GVA_HWDB
+#define LLIUREX_GVA_HWDB
+
+#include "hwdb.h"
+
 #include <stdint.h>
 
 /*!
@@ -46,3 +51,11 @@ uint64_t llx_gva_hwdb_compute_hash(char* digest);
 * dont free the pointer
 */
 char* llx_gva_hwdb_what();
+
+/*!
+* returns entry db to guessed system or null if fails to guess it
+* dont free the pointer
+*/
+llx_gva_hwdb_t* llx_gva_hwdb_what_db();
+
+#endif
