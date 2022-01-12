@@ -1,0 +1,26 @@
+Source: lliurex-gva-hwdb
+Section: libs
+Priority: optional
+Maintainer: Enrique Medina Gremaldos <quiqueiii@gmail.com>
+Build-Depends: debhelper (>=9), cmake, make, gcc, pkg-config, libsmbios-dev
+Standards-Version: 4.5.0
+Homepage: https://github.com/lliurex/lliurex-gva-hwdb
+
+Package: libllxgvahwdb
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: lliurex gva hwdb lib
+ Lliurex GVA hardware database (shared library)
+
+Package: libllxgvahwdb-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: lliurex gva hwdb lib
+ Lliurex GVA hardware database (development files)
+
+Package: llx-gva-hwdb
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: lliurex gva hwdb lib
+ Lliurex GVA hardware database (cli)
+
