@@ -26,8 +26,6 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LLX_GVA_HWDB_MAX_BUFFER 256
-
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
 
 /*

@@ -113,6 +113,27 @@ int main(int argc,char* argv[])
         return 0;
     }
     
+    if (strcmp(argv[1],"check-db") == 0) {
+        llx_gva_hwdb_t* info=llx_gva_hwdb;
+        char tmp[LLX_GVA_HWDB_MAX_BUFFER];
+        size_t n = 0;
+
+        char* status[] = {"[Ok]","[Bad checksum]"};
+
+        while (info->hash!=0) {
+            n = strlen(info->vendor);
+            strcpy(tmp,info->vendor);
+            strcpy(tmp+n,info->system);
+            uint64_t hash = llx_gva_hwdb_compute_hash(tmp);
+
+
+            printf("%s %s %s\n",info->vendor,info->system,(hash==info->hash) ? status[0] : status[1]);
+            info++;
+        }
+
+        return 0;
+    }
+
     show_help();
     
     return -1;
