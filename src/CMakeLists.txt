@@ -11,3 +11,6 @@ target_link_libraries(llx-gva-hwdb llxgvahwdb)
 
 install(TARGETS llx-gva-hwdb RUNTIME DESTINATION sbin)
 install(TARGETS llxgvahwdb LIBRARY DESTINATION lib)
+install(FILES "libllxgvahwdb.h" "hwdb.h"
+    DESTINATION "include/lliurex/gvahwdb"
+)
