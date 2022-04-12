@@ -24,6 +24,8 @@
 
 #include <stdint.h>
 
+#define LLX_GVA_HWDB_MAX_BUFFER 256
+
 /*!
 * returns system vendor name or empty string if name can not be retrieved
 * dont free the pointer
