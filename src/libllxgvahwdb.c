@@ -19,14 +19,33 @@
 
 #include "libllxgvahwdb.h"
 
-#include <smbios_c/smbios.h>
-#include <smbios_c/system_info.h>
-
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
+
+static char* read_dmi_property(const char* what)
+{
+    FILE* f=NULL;
+    char path[128];
+
+    sprintf(path,"/sys/devices/virtual/dmi/id/%s",what);
+
+    f=fopen(path,"r");
+    buffer[0]=0;
+
+    size_t rb = fread(buffer,1,sizeof(buffer),f);
+    if (rb > 1) {
+        if (buffer[rb-1] == '\n') {
+            buffer[rb-1] = 0;
+        }
+    }
+
+    fclose(f);
+
+    return buffer;
+}
 
 /*
  * Based on Wolfgang Brehm code from:
@@ -47,32 +66,12 @@ static uint64_t murmur64 (const char* key)
 
 char* llx_gva_hwdb_get_vendor()
 {
-    char* tmp = sysinfo_get_vendor_name();
-    
-    if (tmp) {
-        strcpy(buffer,tmp);
-        sysinfo_string_free(tmp);
-    }
-    else {
-        buffer[0] = 0;
-    }
-    
-    return buffer;
+    return read_dmi_property("sys_vendor");
 }
 
 char* llx_gva_hwdb_get_system()
 {
-    char* tmp = sysinfo_get_system_name();
-    
-    if (tmp) {
-        strcpy(buffer,tmp);
-        sysinfo_string_free(tmp);
-    }
-    else {
-        buffer[0] = 0;
-    }
-    
-    return buffer;
+    return read_dmi_property("product_name");
 }
 
 uint64_t llx_gva_hwdb_get_hash()
