@@ -1,3 +1,9 @@
+lliurex-gva-hwdb (22.0.0.0) focal; urgency=medium
+
+  * Removed smbios dependecy. Root permission is no longer needed. Reading dmi datafrom sysfs
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Sun, 15 May 2022 21:35:59 +0200
+
 lliurex-gva-hwdb (21.2.0.0) focal; urgency=medium
 
   * Non-maintainer upload.
