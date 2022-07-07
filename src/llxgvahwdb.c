@@ -27,7 +27,7 @@ void show_help()
     fprintf(stderr,"LliureX GVA hardware database tool\n\n");
     fprintf(stderr,"Available commands:\n");
     fprintf(stderr,"what\t\tGuesses what gva model this system is\n");
-    fprintf(stderr,"what-format\t\tGuesses what gva format this system is\n");
+    fprintf(stderr,"what-format\tGuesses what gva format this system is\n");
     fprintf(stderr,"is MODEL\tChecks if current system matches given MODEL name\n");
     fprintf(stderr,"info\t\tDumps system info\n");
     fprintf(stderr,"list-db\t\tList current database\n");

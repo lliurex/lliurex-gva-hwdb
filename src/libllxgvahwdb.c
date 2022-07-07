@@ -25,6 +25,11 @@
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
 
+static void clear_buffer()
+{
+    buffer[0] = 0;
+}
+
 static char* read_dmi_property(const char* what)
 {
     FILE* f=NULL;
@@ -33,7 +38,7 @@ static char* read_dmi_property(const char* what)
     sprintf(path,"/sys/devices/virtual/dmi/id/%s",what);
 
     f=fopen(path,"r");
-    buffer[0]=0;
+    clear_buffer();
 
     size_t rb = fread(buffer,1,sizeof(buffer),f);
     if (rb > 1) {
@@ -96,12 +101,13 @@ uint64_t llx_gva_hwdb_compute_hash(char* digest)
 
 char* llx_gva_hwdb_what()
 {
-    buffer[0] = 0;
     
     uint64_t me = llx_gva_hwdb_get_hash();
     
     llx_gva_hwdb_t* info=llx_gva_hwdb;
-    
+
+    clear_buffer();
+
     while (info->hash!=0) {
         if (info->hash==me) {
             strcpy(buffer,info->what);
