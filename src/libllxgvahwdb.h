@@ -60,4 +60,6 @@ char* llx_gva_hwdb_what();
 */
 llx_gva_hwdb_t* llx_gva_hwdb_what_db();
 
+void test();
+
 #endif

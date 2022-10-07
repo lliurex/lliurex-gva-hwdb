@@ -134,6 +134,11 @@ int main(int argc,char* argv[])
         return 0;
     }
 
+    if (strcmp(argv[1],"test") == 0) {
+        test();
+        return 0;
+    }
+
     show_help();
     
     return -1;
