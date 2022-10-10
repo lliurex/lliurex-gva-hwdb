@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
 
@@ -182,11 +183,15 @@ void test()
 {
     llx_gva_hwdb_t* info=llx_gva_hwdb;
     char* vendor = llx_gva_hwdb_get_vendor();
+    char* system = llx_gva_hwdb_get_system();
 
     while (info->hash!=0) {
-        int distance = levenshtein(vendor,info->vendor);
+        double x = levenshtein(vendor,info->vendor);
+        double y = levenshtein(system,info->system);
 
-        printf("levenshtein: %d %s %s\n",distance,vendor,info->vendor);
+        double L2 = sqrt((x*x)+(y*y));
+
+        printf("levenshtein: %f %s %s\n",L2,info->vendor, info->system);
         info++;
     }
 }
