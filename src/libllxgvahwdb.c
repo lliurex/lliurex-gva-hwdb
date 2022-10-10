@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
@@ -182,8 +183,18 @@ llx_gva_hwdb_t* llx_gva_hwdb_what_db()
 void test()
 {
     llx_gva_hwdb_t* info=llx_gva_hwdb;
-    char* vendor = llx_gva_hwdb_get_vendor();
-    char* system = llx_gva_hwdb_get_system();
+    llx_gva_hwdb_t* best = info;
+    double min = 1024;
+
+    char* tmp;
+    tmp = llx_gva_hwdb_get_vendor();
+    char* vendor = strdup(tmp);
+
+    tmp = llx_gva_hwdb_get_system();
+    char* system = strdup(tmp);
+
+    printf("vendor:%s\n",vendor);
+    printf("system:%s\n",system);
 
     while (info->hash!=0) {
         double x = levenshtein(vendor,info->vendor);
@@ -191,7 +202,20 @@ void test()
 
         double L2 = sqrt((x*x)+(y*y));
 
-        printf("levenshtein: %f %s %s\n",L2,info->vendor, info->system);
+        if (L2 < min) {
+            min = L2;
+            best = info;
+        }
+
+        printf("levenshtein: %.4f %.4f %.4f  %s %s\n",L2,x, y, info->vendor, info->system);
         info++;
     }
+
+    free(vendor);
+    free(system);
+
+    printf("* confidence:%f\n",min);
+    printf("* vendor:%s\n",best->vendor);
+    printf("* system:%s\n",best->system);
+
 }
