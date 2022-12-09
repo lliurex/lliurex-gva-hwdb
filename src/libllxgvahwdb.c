@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <limits.h>
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
 
@@ -164,20 +165,40 @@ char* llx_gva_hwdb_what()
     return buffer;
 }
 
-llx_gva_hwdb_t* llx_gva_hwdb_what_db()
+llx_gva_hwdb_t* llx_gva_hwdb_what_db(int* distance)
 {
-    uint64_t me = llx_gva_hwdb_get_hash();
-    
-    llx_gva_hwdb_t* info=llx_gva_hwdb;
-    
+    int best_dist = INT_MAX;
+    llx_gva_hwdb_t* best = NULL;
+
+    llx_gva_hwdb_t* info = llx_gva_hwdb;
+
+    char* tmp;
+    tmp = llx_gva_hwdb_get_vendor();
+    char* vendor = strdup(tmp);
+
+    tmp = llx_gva_hwdb_get_system();
+    char* system = strdup(tmp);
+
     while (info->hash!=0) {
-        if (info->hash==me) {
-            return info;
+
+        int x = levenshtein(vendor,info->vendor);
+        int y = levenshtein(system,info->system);
+
+        int L1 = x+y;
+
+        if (L1 < best_dist) {
+            best_dist = L1;
+            best = info;
         }
+
         info++;
     }
     
-    return NULL;
+    free(vendor);
+    free(system);
+
+    *distance = best_dist;
+    return best;
 }
 
 void test()

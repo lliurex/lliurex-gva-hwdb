@@ -22,6 +22,11 @@
 #include <stdio.h>
 #include <string.h>
 
+enum {
+    LLX_GVA_HWDB_ERR_UNKNOWN = -2,
+    LLX_GVA_HWDB_ERR_NOTFOUND = -3
+} ErrorCodes;
+
 void show_help()
 {
     fprintf(stderr,"LliureX GVA hardware database tool\n\n");
@@ -41,7 +46,7 @@ int main(int argc,char* argv[])
         show_help();
         return -1;
     }
-    
+    /*
     if (strcmp(argv[1],"info") == 0) {
         printf("vendor: \"%s\"\n",llx_gva_hwdb_get_vendor());
         printf("system: \"%s\"\n",llx_gva_hwdb_get_system());
@@ -133,10 +138,43 @@ int main(int argc,char* argv[])
 
         return 0;
     }
+    */
+    if (strcmp(argv[1],"what") == 0) {
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
 
-    if (strcmp(argv[1],"test") == 0) {
-        test();
+        if (distance == 0) {
+            printf("%s\n",ret->what);
+            return 0;
+        }
+        else {
+            printf("UNKNOWN\n");
+            return LLX_GVA_HWDB_ERR_UNKNOWN;
+        }
+    }
+
+    if (strcmp(argv[1],"list-db") == 0) {
+
+        llx_gva_hwdb_t* info=llx_gva_hwdb;
+
+        while (info->hash!=0) {
+            printf("%s %s %s %s\n",info->what,format_names[info->format],info->vendor,info->system);
+            info++;
+        }
+
         return 0;
+    }
+
+    if (strcmp(argv[1],"is") == 0 && argc>2) {
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
+
+        if (distance == 0 && strcmp(ret->what,argv[2]) == 0) {
+            return 0;
+        }
+        else {
+            return LLX_GVA_HWDB_ERR_NOTFOUND;
+        }
     }
 
     show_help();
