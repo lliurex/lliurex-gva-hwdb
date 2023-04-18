@@ -1,3 +1,9 @@
+lliurex-gva-hwdb (23.0.0.1) focal; urgency=medium
+
+  * Missing dev install files
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Tue, 18 Apr 2023 16:26:15 +0200
+
 lliurex-gva-hwdb (23.0.0.0) focal; urgency=medium
 
   * binary at bin path
