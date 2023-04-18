@@ -55,23 +55,6 @@ static char* read_dmi_property(const char* what)
     return buffer;
 }
 
-/*
- * Based on Wolfgang Brehm code from:
- * https://stackoverflow.com/questions/7666509/hash-function-for-string
- */
-static uint64_t murmur64 (const char* key)
-{
-  uint64_t h = 525201411107845655ull;
-  
-  for (;*key;++key) {
-    h ^= *key;
-    h *= 0x5bd1e9955bd1e995;
-    h ^= h >> 47;
-  }
-  
-  return h;
-}
-
 static int min3i(int a,int b,int c)
 {
     if (a <= b && a <= c) {

@@ -39,16 +39,6 @@ char* llx_gva_hwdb_get_vendor();
 char* llx_gva_hwdb_get_system();
 
 /*!
-* returns current system hash
-*/
-uint64_t llx_gva_hwdb_get_hash();
-
-/*!
-* returns hash for given string
-*/
-uint64_t llx_gva_hwdb_compute_hash(char* digest);
-
-/*!
 * returns guessed system or empty string if error
 * dont free the pointer
 */
