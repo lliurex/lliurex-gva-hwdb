@@ -2,6 +2,7 @@
 find_package(PkgConfig REQUIRED)
 
 add_library(llxgvahwdb SHARED libllxgvahwdb.c)
+target_link_libraries(llxgvahwdb m)
 set_target_properties(llxgvahwdb PROPERTIES SOVERSION 1 VERSION "1.0.0")
 
 add_executable(llx-gva-hwdb llxgvahwdb.c)

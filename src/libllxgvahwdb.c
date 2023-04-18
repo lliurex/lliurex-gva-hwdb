@@ -22,8 +22,16 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <limits.h>
 
 char buffer[LLX_GVA_HWDB_MAX_BUFFER];
+
+static void clear_buffer()
+{
+    buffer[0] = 0;
+}
 
 static char* read_dmi_property(const char* what)
 {
@@ -33,7 +41,7 @@ static char* read_dmi_property(const char* what)
     sprintf(path,"/sys/devices/virtual/dmi/id/%s",what);
 
     f=fopen(path,"r");
-    buffer[0]=0;
+    clear_buffer();
 
     size_t rb = fread(buffer,1,sizeof(buffer),f);
     if (rb > 1) {
@@ -47,21 +55,46 @@ static char* read_dmi_property(const char* what)
     return buffer;
 }
 
-/*
- * Based on Wolfgang Brehm code from:
- * https://stackoverflow.com/questions/7666509/hash-function-for-string
- */
-static uint64_t murmur64 (const char* key)
+static int min3i(int a,int b,int c)
 {
-  uint64_t h = 525201411107845655ull;
-  
-  for (;*key;++key) {
-    h ^= *key;
-    h *= 0x5bd1e9955bd1e995;
-    h ^= h >> 47;
-  }
-  
-  return h;
+    if (a <= b && a <= c) {
+        return a;
+    }
+    else {
+        if(b <= a && b <= c) {
+            return b;
+        }
+        else {
+            if(c <= a && c <= b) {
+                return c;
+            }
+        }
+    }
+
+    // may we land here?
+    return -1;
+}
+
+/*
+ Based on this:
+ https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C
+*/
+static int levenshtein(char *s1, char *s2)
+{
+    unsigned int x, y, s1len, s2len;
+    s1len = strlen(s1);
+    s2len = strlen(s2);
+    unsigned int matrix[s2len+1][s1len+1];
+    matrix[0][0] = 0;
+    for (x = 1; x <= s2len; x++)
+        matrix[x][0] = matrix[x-1][0] + 1;
+    for (y = 1; y <= s1len; y++)
+        matrix[0][y] = matrix[0][y-1] + 1;
+    for (x = 1; x <= s2len; x++)
+        for (y = 1; y <= s1len; y++)
+            matrix[x][y] = min3i(matrix[x-1][y] + 1, matrix[x][y-1] + 1, matrix[x-1][y-1] + (s1[y-1] == s2[x-1] ? 0 : 1));
+
+    return(matrix[s2len][s1len]);
 }
 
 char* llx_gva_hwdb_get_vendor()
@@ -74,58 +107,38 @@ char* llx_gva_hwdb_get_system()
     return read_dmi_property("product_name");
 }
 
-uint64_t llx_gva_hwdb_get_hash()
+llx_gva_hwdb_t* llx_gva_hwdb_what_db(int* distance)
 {
-    char str[LLX_GVA_HWDB_MAX_BUFFER];
-    size_t n=0;
-    
-    char* tmp = llx_gva_hwdb_get_vendor();
-    n = strlen(tmp);
-    strcpy(str,tmp);
-    
+    int best_dist = INT_MAX;
+    llx_gva_hwdb_t* best = NULL;
+
+    llx_gva_hwdb_t* info = llx_gva_hwdb;
+
+    char* tmp;
+    tmp = llx_gva_hwdb_get_vendor();
+    char* vendor = strdup(tmp);
+
     tmp = llx_gva_hwdb_get_system();
-    strcpy(str+n,tmp);
-    
-    return murmur64(str);
-}
+    char* system = strdup(tmp);
 
-uint64_t llx_gva_hwdb_compute_hash(char* digest)
-{
-    return murmur64(digest);
-}
+    while (info->what!=0) {
 
-char* llx_gva_hwdb_what()
-{
-    buffer[0] = 0;
-    
-    uint64_t me = llx_gva_hwdb_get_hash();
-    
-    llx_gva_hwdb_t* info=llx_gva_hwdb;
-    
-    while (info->hash!=0) {
-        if (info->hash==me) {
-            strcpy(buffer,info->what);
-            break;
+        int x = levenshtein(vendor,info->vendor);
+        int y = levenshtein(system,info->system);
+
+        int L1 = x+y;
+
+        if (L1 < best_dist) {
+            best_dist = L1;
+            best = info;
         }
-        
+
         info++;
     }
-    
-    return buffer;
-}
 
-llx_gva_hwdb_t* llx_gva_hwdb_what_db()
-{
-    uint64_t me = llx_gva_hwdb_get_hash();
-    
-    llx_gva_hwdb_t* info=llx_gva_hwdb;
-    
-    while (info->hash!=0) {
-        if (info->hash==me) {
-            return info;
-        }
-        info++;
-    }
-    
-    return NULL;
+    free(vendor);
+    free(system);
+
+    *distance = best_dist;
+    return best;
 }

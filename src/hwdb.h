@@ -25,7 +25,6 @@ typedef enum {
 } llx_gva_hwdb_format_t;
 
 typedef struct {
-    uint64_t hash;
     char* what;
     llx_gva_hwdb_format_t format;
     char* vendor;
@@ -33,12 +32,13 @@ typedef struct {
 } llx_gva_hwdb_t;
 
 llx_gva_hwdb_t llx_gva_hwdb [] = { 
-       /* {2947799435940071112U,"TST1",LLX_GVA_HWDB_DESKTOP,"",""}, */
-        {4071682124959178180U,"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
-        {12035700818783202010U,"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
-        {2105838388923405639U,"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"},
-        {9504963959125139900U,"_ASUS_",LLX_GVA_HWDB_LAPTOP,"ASUSTeK COMPUTER INC.","ASUS BR1100FKA BR1100FKA_BR1100FKA"},
-        {15811257294219722714U,"_LENOVO_",LLX_GVA_HWDB_LAPTOP,"LENOVO","82J1"},
-        {17814104592024589437U,"_ACER_",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate P214-41-G3"},
-        {0,0,0,0,0}
+       /* {"TST1",LLX_GVA_HWDB_DESKTOP,"",""}, */
+        {"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
+        {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
+        {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"},
+        {"_ASUS_",LLX_GVA_HWDB_LAPTOP,"ASUSTeK COMPUTER INC.","ASUS BR1100FKA BR1100FKA_BR1100FKA"},
+        {"_LENOVO_",LLX_GVA_HWDB_LAPTOP,"LENOVO","82J1"},
+        {"_ACER_",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate P214-41-G3"},
+        {"_IDEAPAD_",LLX_GVA_HWDB_LAPTOP,"LENOVO","20269"},
+        {0,0,0,0}
 };

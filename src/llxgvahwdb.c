@@ -22,12 +22,17 @@
 #include <stdio.h>
 #include <string.h>
 
+enum {
+    LLX_GVA_HWDB_ERR_UNKNOWN = -2,
+    LLX_GVA_HWDB_ERR_NOTFOUND = -3
+} ErrorCodes;
+
 void show_help()
 {
     fprintf(stderr,"LliureX GVA hardware database tool\n\n");
     fprintf(stderr,"Available commands:\n");
     fprintf(stderr,"what\t\tGuesses what gva model this system is\n");
-    fprintf(stderr,"what-format\t\tGuesses what gva format this system is\n");
+    fprintf(stderr,"what-format\tGuesses what gva format this system is\n");
     fprintf(stderr,"is MODEL\tChecks if current system matches given MODEL name\n");
     fprintf(stderr,"info\t\tDumps system info\n");
     fprintf(stderr,"list-db\t\tList current database\n");
@@ -35,100 +40,80 @@ void show_help()
 
 int main(int argc,char* argv[])
 {
-    const char* format_names[] = {"Desktop","Laptop"};
+    const char* format_names[] = {"desktop","laptop"};
     
     if (argc<2) {
         show_help();
         return -1;
     }
-    
-    if (strcmp(argv[1],"info") == 0) {
-        printf("vendor: \"%s\"\n",llx_gva_hwdb_get_vendor());
-        printf("system: \"%s\"\n",llx_gva_hwdb_get_system());
-        llx_gva_hwdb_t* what = llx_gva_hwdb_what_db();
 
-        if (what == 0) {
-            printf("what: UNKNOWN\n");
-            printf("format: UNKNOWN\n");
-        }
-        else {
-            printf("what: %s\n",what->what);
-            printf("format: %s\n",format_names[what->format]);
-        }
-        
-        return 0;
-    }
-    
     if (strcmp(argv[1],"what") == 0) {
-        const char* what = llx_gva_hwdb_what();
-        if (strlen(what) == 0) {
-            printf("UNKNOWN\n");
-            return -2;
-        }
-        else {
-            printf("%s\n",what);
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
+
+        if (distance == 0) {
+            printf("%s\n",ret->what);
             return 0;
         }
+        else {
+            printf("unknown\n");
+            return LLX_GVA_HWDB_ERR_UNKNOWN;
+        }
     }
-    
+
     if (strcmp(argv[1],"what-format") == 0) {
-        llx_gva_hwdb_t* what = llx_gva_hwdb_what_db();
-        if (what == 0) {
-            printf("UNKNOWN\n");
-            return -2;
-        }
-        else {
-            printf("%s\n",format_names[what->format]);
-            return 0;
-        }
-    }
-    
-    if (strcmp(argv[1],"is") == 0 && argc>2) {
-        const char* what = llx_gva_hwdb_what();
-        
-        if (strcmp(what,argv[2]) == 0) {
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
+
+        if (distance == 0) {
+            printf("%s\n",format_names[ret->format]);
             return 0;
         }
         else {
-            return -3;
+            printf("unknown\n");
+            return LLX_GVA_HWDB_ERR_UNKNOWN;
         }
     }
-    
-    if (strcmp(argv[1],"compute-hash") == 0 && argc>2) {
-        uint64_t hash = llx_gva_hwdb_compute_hash(argv[2]);
-        printf("%lu\n",hash);
-        
-        return 0;
-    }
-    
+
     if (strcmp(argv[1],"list-db") == 0) {
-        
+
         llx_gva_hwdb_t* info=llx_gva_hwdb;
-    
-        while (info->hash!=0) {
+
+        while (info->what!=0) {
             printf("%s %s %s %s\n",info->what,format_names[info->format],info->vendor,info->system);
             info++;
         }
-        
+
         return 0;
     }
-    
-    if (strcmp(argv[1],"check-db") == 0) {
-        llx_gva_hwdb_t* info=llx_gva_hwdb;
-        char tmp[LLX_GVA_HWDB_MAX_BUFFER];
-        size_t n = 0;
 
-        char* status[] = {"[Ok]","[Bad checksum]"};
+    if (strcmp(argv[1],"is") == 0 && argc>2) {
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
 
-        while (info->hash!=0) {
-            n = strlen(info->vendor);
-            strcpy(tmp,info->vendor);
-            strcpy(tmp+n,info->system);
-            uint64_t hash = llx_gva_hwdb_compute_hash(tmp);
+        if (distance == 0 && strcmp(ret->what,argv[2]) == 0) {
+            return 0;
+        }
+        else {
+            return LLX_GVA_HWDB_ERR_NOTFOUND;
+        }
+    }
 
+    if (strcmp(argv[1],"info") == 0) {
+        printf("vendor:%s\n",llx_gva_hwdb_get_vendor());
+        printf("system:%s\n",llx_gva_hwdb_get_system());
 
-            printf("%s %s %s\n",info->vendor,info->system,(hash==info->hash) ? status[0] : status[1]);
-            info++;
+        int distance;
+        llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
+
+        if (distance == 0) {
+            printf("model:%s\n",ret->what);
+            printf("type:%s\n",format_names[ret->format]);
+        }
+        else {
+            printf("model:unknown\n");
+            printf("type:unknown\n");
+            printf("candidate:%s(%d)\n",ret->what,distance);
         }
 
         return 0;
