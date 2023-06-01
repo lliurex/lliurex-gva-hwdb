@@ -1,3 +1,9 @@
+lliurex-gva-hwdb (23.1.1.0) focal; urgency=medium
+
+  * Info command uses format keyword instead of type.
+
+ -- Enrique Medina Gremaldos <quiqueiii@gmail.com>  Thu, 01 Jun 2023 10:16:40 +0200
+
 lliurex-gva-hwdb (23.1.0.0) focal; urgency=medium
 
   * Added PRM3
