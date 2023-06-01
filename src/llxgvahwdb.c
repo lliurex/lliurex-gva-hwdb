@@ -108,11 +108,11 @@ int main(int argc,char* argv[])
 
         if (distance == 0) {
             printf("model:%s\n",ret->what);
-            printf("type:%s\n",format_names[ret->format]);
+            printf("format:%s\n",format_names[ret->format]);
         }
         else {
             printf("model:unknown\n");
-            printf("type:unknown\n");
+            printf("format:unknown\n");
             printf("candidate:%s(%d)\n",ret->what,distance);
         }
 
