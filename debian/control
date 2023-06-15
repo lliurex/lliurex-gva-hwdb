@@ -14,7 +14,7 @@ Description: lliurex gva hwdb lib
 
 Package: libllxgvahwdb-dev
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libllxgvahwdb
 Description: lliurex gva hwdb lib
  Lliurex GVA hardware database (development files)
 
