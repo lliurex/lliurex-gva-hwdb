@@ -36,6 +36,7 @@ llx_gva_hwdb_t llx_gva_hwdb [] = {
         {"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
         {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
         {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"},
+        {"PRM1/PRM2",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate P214-54"},
         {"PRM3",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate Spin B311R-32"},
         {"_ASUS_",LLX_GVA_HWDB_LAPTOP,"ASUSTeK COMPUTER INC.","ASUS BR1100FKA BR1100FKA_BR1100FKA"},
         {"_LENOVO_",LLX_GVA_HWDB_LAPTOP,"LENOVO","82J1"},
