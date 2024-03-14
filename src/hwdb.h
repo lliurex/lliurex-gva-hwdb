@@ -35,6 +35,8 @@ llx_gva_hwdb_t llx_gva_hwdb [] = {
        /* {"TST1",LLX_GVA_HWDB_DESKTOP,"",""}, */
         {"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
         {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
+        {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6"},
+        {"PRL3",LLX_GVA_HWDB_LAPTOP,"Dynabook Inc.","SATELLITE PRO C40-G-126"},
         {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"}, /* where this id came from? ORI2 perhaps? */
         {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TICNOVA Quality Team S.l.","E70 SFF"},
         {"ORI1",LLX_GVA_HWDB_DESKTOP,"HP","HP ProDesk 600 G4 SFF"}, //untested
