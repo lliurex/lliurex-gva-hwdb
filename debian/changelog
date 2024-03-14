@@ -1,3 +1,9 @@
+lliurex-gva-hwdb (23.2.3.0) jammy; urgency=medium
+
+  * Updated PRJ1 and PRL3 models
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Thu, 14 Mar 2024 16:05:01 +0100
+
 lliurex-gva-hwdb (23.2.2.1) jammy; urgency=medium
 
   * Jammy release
