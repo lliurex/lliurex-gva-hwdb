@@ -39,17 +39,9 @@ char* llx_gva_hwdb_get_vendor();
 char* llx_gva_hwdb_get_system();
 
 /*!
-* returns guessed system or empty string if error
-* dont free the pointer
-*/
-char* llx_gva_hwdb_what();
-
-/*!
 * returns entry db to guessed system or null if fails to guess it
 * dont free the pointer. L1 distance of levenshtein from system/vendor is returned on distance argument
 */
 llx_gva_hwdb_t* llx_gva_hwdb_what_db(int* distance);
-
-void test();
 
 #endif

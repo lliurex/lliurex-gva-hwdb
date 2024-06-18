@@ -31,17 +31,34 @@ typedef struct {
     char* system;
 } llx_gva_hwdb_t;
 
+typedef struct {
+    char* what;
+    char* alias;
+} llx_gva_alias_t;
+
 llx_gva_hwdb_t llx_gva_hwdb [] = { 
        /* {"TST1",LLX_GVA_HWDB_DESKTOP,"",""}, */
         {"OR62",LLX_GVA_HWDB_DESKTOP,"Investronica","MS-7210"},
         {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6 (4RZ48AV)"},
         {"PRJ1",LLX_GVA_HWDB_LAPTOP,"HP","HP ProBook 440 G6"},
-        {"PRL3",LLX_GVA_HWDB_LAPTOP,"Dynabook Inc.","SATELLITE PRO C40-G-126"},
+        {"PRL2",LLX_GVA_HWDB_LAPTOP,"Dynabook Inc.","SATELLITE PRO C40-G-126"},
         {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TEKNOSERVICE","TTL-TEKNOSLIM (ASUS_MB_CNL)"}, /* where this id came from? ORI2 perhaps? */
         {"ORJ2",LLX_GVA_HWDB_DESKTOP,"TICNOVA Quality Team S.l.","E70 SFF"},
         {"ORI1",LLX_GVA_HWDB_DESKTOP,"HP","HP ProDesk 600 G4 SFF"}, //untested
-        {"CLG1/CLH1",LLX_GVA_HWDB_DESKTOP,"HP","HP t730 Thin Client"}, //untested
-        {"PRM1/PRM2",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate P214-54"},
+        {"CLG1",LLX_GVA_HWDB_DESKTOP,"HP","HP t730 Thin Client"}, //untested
+        {"PRM1",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate P214-54"},
         {"PRM3",LLX_GVA_HWDB_LAPTOP,"Acer","TravelMate Spin B311R-32"},
+        {"PRN2",LLX_GVA_HWDB_LAPTOP,"HP","HP Pro x360 Fortis 11 inch G11 Notebook PC"}, //untested
+        {"PRN7",LLX_GVA_HWDB_LAPTOP,"LENOVO","82VN"},
         {0,0,0,0}
+};
+
+llx_gva_alias_t llx_gva_alias [] = {
+    {"PRL3","PRL2"},
+    {"CLH1","CLG1"},
+    {"PRM2","PRM1"},
+    {"PRN3","PRN2"},
+    {"PRN4","PRN2"},
+    {"PRN8","PRN7"},
+    {0,0}
 };
