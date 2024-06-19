@@ -1,3 +1,10 @@
+lliurex-gva-hwdb (23.3.0.0) jammy; urgency=medium
+
+  * Updated database with some models
+  * IS command handles alias names
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Wed, 19 Jun 2024 10:16:53 +0200
+
 lliurex-gva-hwdb (23.2.3.0) jammy; urgency=medium
 
   * Updated PRJ1 and PRL3 models
