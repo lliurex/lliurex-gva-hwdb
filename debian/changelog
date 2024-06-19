@@ -1,4 +1,4 @@
-lliurex-gva-hwdb (23.3.0.0) jammy; urgency=medium
+lliurex-gva-hwdb (23.3.0.0) noble; urgency=medium
 
   * Updated database with some models
   * IS command handles alias names
