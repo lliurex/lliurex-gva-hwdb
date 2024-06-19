@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 enum {
     LLX_GVA_HWDB_ERR_UNKNOWN = -2,
@@ -91,8 +92,26 @@ int main(int argc,char* argv[])
         int distance;
         llx_gva_hwdb_t* ret = llx_gva_hwdb_what_db(&distance);
 
-        if (distance == 0 && strcmp(ret->what,argv[2]) == 0) {
-            return 0;
+        if (distance == 0) {
+            int found = LLX_GVA_HWDB_ERR_NOTFOUND;
+
+            char* candidate = argv[2];
+
+            char* what = strdup(ret->what);
+            char* delimiter = "/";
+
+            char *ptr = strtok(what, delimiter);
+
+            while (ptr != NULL) {
+                if (strcmp(ptr, candidate) == 0) {
+                    found = 0;
+                }
+                ptr = strtok(NULL, delimiter);
+            }
+
+            free(what);
+
+            return found;
         }
         else {
             return LLX_GVA_HWDB_ERR_NOTFOUND;
