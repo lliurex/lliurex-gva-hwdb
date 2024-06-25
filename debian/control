@@ -1,9 +1,10 @@
 Source: lliurex-gva-hwdb
 Section: libs
 Priority: optional
-Maintainer: Enrique Medina Gremaldos <quiqueiii@gmail.com>
-Build-Depends: debhelper (>=9), cmake, make, gcc, pkg-config
-Standards-Version: 4.5.0
+Maintainer: Enrique Medina Gremaldos <quique@necos.es>
+Build-Depends: debhelper-compat (=13), cmake, make, gcc, pkg-config
+Standards-Version: 4.6.0
+Rules-Requires-Root: no
 Homepage: https://github.com/lliurex/lliurex-gva-hwdb
 
 Package: libllxgvahwdb

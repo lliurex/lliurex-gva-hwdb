@@ -1,3 +1,9 @@
+lliurex-gva-hwdb (23.3.1.0) noble; urgency=medium
+
+  * Fixed control file
+
+ -- Enrique Medina Gremaldos <quique@necos.es>  Tue, 25 Jun 2024 09:22:27 +0200
+
 lliurex-gva-hwdb (23.3.0.0) noble; urgency=medium
 
   * Updated database with some models
